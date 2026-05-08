@@ -31,6 +31,7 @@ Python 3.12.13
 ansible_python_interpreter="/usr/local/lib/python4ansible/python3"
 ```
 
+ただし、pip module の venv 環境への対応は、各role毎に必要。
 
 ## Purpose
 
