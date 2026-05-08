@@ -61,5 +61,5 @@ sudo -u "${UV_USER}" -g "${UV_GROUP}" \
 
 popd
 
-command echo "ansible_python_interpreter=\"${UV_BASE_DIR}/${UV_PYTHON_SYMLINK}\""
+command echo "ansible_python_interpreter=\"${UV_BASE_DIR}/${UV_USER}/${UV_PYTHON_SYMLINK}\""
 
