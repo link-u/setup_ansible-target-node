@@ -17,6 +17,11 @@ curl -LsSf https://raw.githubusercontent.com/link-u/setup_ansible-target-node/re
 
 ## 3.14
 curl -LsSf https://raw.githubusercontent.com/link-u/setup_ansible-target-node/refs/heads/main/install-uv-python4ansible.bash | UV_PYTHON_VERSION=3.14 bash
+
+## 実行例
+root@test-target-u18:~# curl -LsSf https://raw.githubusercontent.com/link-u/setup_ansible-target-node/refs/heads/main/install-uv-python4ansible.bash | bash
+root@test-target-u18:~# /usr/local/lib/python4ansible/python3 --version
+Python 3.12.13
 ```
 
 <ansible-playbook>
@@ -25,6 +30,7 @@ curl -LsSf https://raw.githubusercontent.com/link-u/setup_ansible-target-node/re
 [all:vars]
 ansible_python_interpreter="/usr/local/lib/python4ansible/python3"
 ```
+
 
 ## Purpose
 
