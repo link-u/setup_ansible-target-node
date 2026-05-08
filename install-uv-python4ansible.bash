@@ -15,6 +15,8 @@ UV_PYTHON_VERSION="${UV_PYTHON_VERSION:-3.12}"   # Python
 UV_VENV_DIR="python${UV_PYTHON_VERSION}"
 UV_PYTHON_SYMLINK="python3" # used by ansible_python_interpreter
 
+UV_PIP_PKGS=()
+
 ## 1. check required commands
 for i in curl sudo; do
   command -v "$i" >/dev/null 2>&1
@@ -50,6 +52,13 @@ sudo -u "${UV_USER}" -g "${UV_GROUP}" \
 	HOME="${UV_BASE_DIR}/${UV_USER}" \
 	"${UV_INSTALL_DIR}/uv" venv --python "${UV_PYTHON_VERSION}" "${UV_VENV_DIR}_tmp"
 
+	if [ "${#UV_PIP_PKGS[@]}"  -gt  0 ]; then
+		sudo -u "${UV_USER}" -g "${UV_GROUP}" \
+			HOME="${UV_BASE_DIR}/${UV_USER}" \
+			"${UV_INSTALL_DIR}/uv" --directory "${UV_BASE_DIR}/${UV_USER}/${UV_VENV_DIR}_tmp" pip install "${UV_PIP_PKGS[@]}"
+	fi
+
+
 if [ -d "${UV_VENV_DIR}" ]; then
 	rm -rf "${UV_VENV_DIR}"
 fi
@@ -58,8 +67,6 @@ mv "${UV_VENV_DIR}_tmp" "${UV_VENV_DIR}"
 
 sudo -u "${UV_USER}" -g "${UV_GROUP}" \
 	ln -sfn "${UV_VENV_DIR}/bin/python3" "${UV_PYTHON_SYMLINK}"
-
-popd
 
 command echo "ansible_python_interpreter=\"${UV_BASE_DIR}/${UV_USER}/${UV_PYTHON_SYMLINK}\""
 
