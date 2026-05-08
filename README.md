@@ -20,7 +20,7 @@ curl -LsSf https://raw.githubusercontent.com/link-u/setup_ansible-target-node/re
 
 ## 実行例
 root@test-target-u18:~# curl -LsSf https://raw.githubusercontent.com/link-u/setup_ansible-target-node/refs/heads/main/install-uv-python4ansible.bash | bash -s
-root@test-target-u18:~# /usr/local/lib/python4ansible/python3 --version
+root@test-target-u18:~# /usr/local/lib/python4ansible/venv/bin/python3 --version
 Python 3.12.13
 ```
 
@@ -28,7 +28,7 @@ Python 3.12.13
 
 ```
 [all:vars]
-ansible_python_interpreter="/usr/local/lib/python4ansible/python3"
+ansible_python_interpreter="/usr/local/lib/python4ansible/venv/bin/python3"
 ```
 
 ただし、pip module の venv 環境への対応は、各role毎に必要。
