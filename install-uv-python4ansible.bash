@@ -9,7 +9,7 @@ UV_INSTALL_DIR="/usr/local/bin"
 
 UV_USER="python4ansible"
 UV_GROUP="${UV_USER}"
-UV_BASE_DIR="/usr/local/lib/"
+UV_BASE_DIR="/usr/local/lib"
 
 UV_PYTHON_VERSION="${UV_PYTHON_VERSION:-3.12}"   # Python
 UV_VENV_DIR="python${UV_PYTHON_VERSION}"
