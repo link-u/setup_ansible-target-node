@@ -30,10 +30,12 @@ curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="${UV_INSTALL_DI
 
 
 ## 3. create user & home directory
+set +e
 getent passwd "${UV_USER}" >/dev/null 2>&1
 if [ "$?" -ne 0 ]; then
 	useradd -r -m -b "${UV_BASE_DIR}" -s /sbin/nologin "${UV_USER}"
 fi
+set -e
 
 ## 4. create uv venv
 
@@ -55,9 +57,9 @@ fi
 mv "${UV_VENV_DIR}_tmp" "${UV_VENV_DIR}"
 
 sudo -u "${UV_USER}" -g "${UV_GROUP}" \
-	ln -sfn "${UV_VENV_DIR}/bin/python3" "${PY_SYMLINK}"
+	ln -sfn "${UV_VENV_DIR}/bin/python3" "${UV_PYTHON_SYMLINK}"
 
 popd
 
-command echo "ansible_python_interpreter=\"${ANSIBLE_BASE_DIR}/${PY_SYMLINK}\""
+command echo "ansible_python_interpreter=\"${UV_BASE_DIR}/${UV_PYTHON_SYMLINK}\""
 
