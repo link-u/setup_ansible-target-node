@@ -15,7 +15,8 @@ UV_PYTHON_VERSION="${UV_PYTHON_VERSION:-3.12}"   # Python
 UV_VENV_DIR="python${UV_PYTHON_VERSION}"
 UV_PYTHON_SYMLINK="python3" # used by ansible_python_interpreter
 
-UV_PIP_PKGS=()
+UV_PIP_PKGS=('packaging')
+# 'packaging': ansible-roles-v2_postfix
 
 ## 1. check required commands
 for i in curl sudo; do
