@@ -15,7 +15,7 @@ UV_PYTHON_VERSION="${UV_PYTHON_VERSION:-3.12}"   # Python
 UV_VENV_DIR="python${UV_PYTHON_VERSION}"
 UV_SYMLINK="venv" # used by ansible_python_interpreter
 
-UV_PIP_PKGS=('packaging' 'pymysql' 'zabbix-api')
+UV_PIP_PKGS=('packaging' 'pymysql' 'zabbix-api' 'requests')
 
 ## 1. check required commands
 for i in curl sudo; do
