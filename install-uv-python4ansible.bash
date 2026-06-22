@@ -68,5 +68,42 @@ mv "${UV_VENV_DIR}_tmp" "${UV_VENV_DIR}"
 sudo -u "${UV_USER}" -g "${UV_GROUP}" \
 	ln -sfn "${UV_VENV_DIR}" "${UV_SYMLINK}"
 
+popd
+
+## 5. Configure APT Hook for uv self update
+command echo "==> Configuring APT hook for uv auto-update..."
+
+# Create uv update script
+sudo tee /usr/local/bin/apt-uv-updater.sh > /dev/null << 'EOF'
+#! /bin/bash -
+
+# uvコマンドが存在するかチェック
+if command -v uv >/dev/null 2>&1; then
+    command echo '========== [APT Hook] Updating /usr/local/bin/uv =========='
+    
+    # 2>&1 でエラー出力を標準出力に統合し、ifの条件式として実行する
+    if ! uv self update 2>&1; then
+        # uv self update が失敗（非ゼロ）した場合、警告メッセージを出して正常終了させる
+        command echo ' [WARNING] uv self update failed. Skipping to avoid disrupting APT.' >&2
+    fi
+fi
+
+# 何があってもAPT側には「成功した」と嘘をついて正常終了させる
+exit 0
+EOF
+
+# Grant execution permission
+sudo chmod +x /usr/local/bin/apt-uv-updater.sh
+
+# Create APT configuration file
+sudo tee /etc/apt/apt.conf.d/99uv-auto-update > /dev/null << 'EOF'
+#DPkg::Post-Invoke { "/usr/local/bin/apt-uv-updater.sh"; };
+APT::Update::Post-Invoke { "/usr/local/bin/apt-uv-updater.sh"; };
+EOF
+
+
+# =====================
+# Output Result
+# =====================
 command echo "ansible_python_interpreter=\"${UV_BASE_DIR}/${UV_USER}/${UV_SYMLINK}/bin/python3\""
 
