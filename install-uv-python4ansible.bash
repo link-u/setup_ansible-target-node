@@ -36,9 +36,9 @@ set +e
 getent passwd "${UV_USER}" >/dev/null 2>&1
 if [ "$?" -ne 0 ]; then
 	useradd -r -m -b "${UV_BASE_DIR}" -s /sbin/nologin "${UV_USER}"
-	sudo chmod 755 "${UV_BASE_DIR}/${UV_USER}"
 fi
 set -e
+sudo chmod 755 "${UV_BASE_DIR}/${UV_USER}"
 
 ## 4. create uv venv
 
