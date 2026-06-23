@@ -36,6 +36,7 @@ set +e
 getent passwd "${UV_USER}" >/dev/null 2>&1
 if [ "$?" -ne 0 ]; then
 	useradd -r -m -b "${UV_BASE_DIR}" -s /sbin/nologin "${UV_USER}"
+	sudo chmod 755 "${UV_BASE_DIR}/${UV_USER}"
 fi
 set -e
 
@@ -67,6 +68,11 @@ mv "${UV_VENV_DIR}_tmp" "${UV_VENV_DIR}"
 
 sudo -u "${UV_USER}" -g "${UV_GROUP}" \
 	ln -sfn "${UV_VENV_DIR}" "${UV_SYMLINK}"
+
+sudo chmod 755 "${UV_VENV_DIR}" "${UV_VENV_DIR}/bin"
+
+INTERNAL_PYTHON_EXE=$(readlink -f "${UV_VENV_DIR}/bin/python3")
+sudo chmod a+x "${INTERNAL_PYTHON_EXE}"
 
 popd
 
